@@ -11,12 +11,30 @@ const Head = () => {
     // but if the difference between API calls are < 200 ms, decline the API call
     //Debopuncing - 200 ms
 
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       getSearchSuggetions();
     }, 200);
 
-    getSearchSuggetions();
+    return () => {
+      clearTimeout(timer);
+    };
   }, [searchQuery]);
+
+  /**
+   * debouncing
+   * key - i
+   * render the component
+   *  -useEffect()
+   * start timem => make api call after 200 ms
+   *
+   * key -p => ip
+   * destroy the component (useEffect return method to destroy)
+   * rerender the component
+   * -useEffect
+   * start timer (newTimer) => make api call after 200 ms
+   *
+   *
+   */
 
   const getSearchSuggetions = async () => {
     const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
