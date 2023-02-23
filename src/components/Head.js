@@ -5,6 +5,7 @@ import { YOUTUBE_SEARCH_API } from "../utils/constants";
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
 
   useEffect(() => {
     //make an API call after every key press
@@ -40,6 +41,7 @@ const Head = () => {
     const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
     const json = await data.json();
     console.log(json);
+    setSuggestions(json[1]);
   };
 
   const dispatch = useDispatch();
@@ -64,15 +66,26 @@ const Head = () => {
         </a>
       </div>
       <div className="col-span-10">
-        <input
-          type="text"
-          className="border border-gray-400 w-1/2 p-2 rounded-l-full"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        ></input>
-        <button className="border border-gray-400 p-2 rounded-r-full px-5 py-2 bg-gray-100">
-          🔍
-        </button>
+        <div>
+          <input
+            type="text"
+            className="border border-gray-400 w-1/2 p-2 rounded-l-full"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          ></input>
+          <button className="border border-gray-400 p-2 rounded-r-full px-5 py-2 bg-gray-100">
+            🔍
+          </button>
+        </div>
+        <div className="fixed bg-white py-2 px-5 w-[37rem]">
+          <ul>
+            {suggestions.map((suggestion) => (
+              <li className="py-2 shadow-sm border-gray-100 rounded-md hover:bg-gray-100">
+                🔍{suggestion}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
       <div className="col-span-1">
         <img
