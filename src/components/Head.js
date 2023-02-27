@@ -48,7 +48,6 @@ const Head = () => {
   const getSearchSuggetions = async () => {
     const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
     const json = await data.json();
-    console.log(json);
     setSuggestions(json[1]);
 
     //update cache
